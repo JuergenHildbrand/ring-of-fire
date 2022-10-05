@@ -2,8 +2,9 @@
     class="playerPosition" 
     *ngFor="let player of game.players
     let i = index;"
-    [ngStyle]="{'top.px': 100 + (i * 100)}"
-    [name]="player">
+    [ngStyle]="{'top.px': 100 + (i * 60)}"
+    [name]="player"
+    [playerActive]="i == game.currenPlayer">
 </app-player>
 
 <div class="game">
@@ -32,7 +33,7 @@
         <!-- Current card (animation) -->
         <img 
             class="takeCardAnimation"
-            (click)="takeCard()"
+
             *ngIf="takeCardAnimation"
             style="right: 25px;"
             src="assets/img/cards/{{ currentCard }}.png">
@@ -40,6 +41,8 @@
     </div>
 
 </div>
+
+<app-game-info [card]="currentCard"></app-game-info>
 
 <button mat-fab color="primary" (click)="openDialog()">
     <mat-icon>add</mat-icon>

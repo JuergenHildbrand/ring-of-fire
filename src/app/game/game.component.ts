@@ -26,14 +26,20 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.takeCardAnimation) {
-      this.currentCard = this.game.stack.pop();
-      this.takeCardAnimation = true;
+    if (this.game.players.length > 1) {
+      if (!this.takeCardAnimation) {
+        this.currentCard = this.game.stack.pop();
+        this.takeCardAnimation = true;
+        this.game.currenPlayer++;
+        this.game.currenPlayer = this.game.currenPlayer % this.game.players.length;
 
-      setTimeout(() => {
-        this.game.playedCards.push(this.currentCard)
-        this.takeCardAnimation = false;
-      }, 1000);
+        setTimeout(() => {
+          this.game.playedCards.push(this.currentCard)
+          this.takeCardAnimation = false;
+        }, 1000);
+      }
+    } else {
+      alert('Please add player(s)')
     }
   }
 
@@ -41,8 +47,10 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent, {
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((name: string) => {
+      if (name && (name.length >= 2 || name.length <= 10)) {
+        this.game.players.push(name)
+      }
     });
   }
 

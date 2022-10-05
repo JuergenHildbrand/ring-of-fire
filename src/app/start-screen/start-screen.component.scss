@@ -1,20 +1,23 @@
 .startScreen {
     background-color: #404040;
-    ;
     width: 100%;
     max-width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     img {
-        height: 100vh;
+        height: 96vh;
+        width: 96vw;
+        object-fit: contain;
     }
 
     .startLabel {
         position: absolute;
-        bottom: 100px;
+        left: calc((100vw - 30%) / 2);
+        top: 60%;
 
         img {
             width: 30vw;
