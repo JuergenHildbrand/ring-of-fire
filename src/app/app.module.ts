@@ -15,7 +15,14 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { GameInfoComponent } from './game-info/game-info.component';
-
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 
 @NgModule({
@@ -37,9 +44,21 @@ import { GameInfoComponent } from './game-info/game-info.component';
     MatFormFieldModule,
     FormsModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore()),
+    AngularFireModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
   ],
-  providers: [],
+  providers: [
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

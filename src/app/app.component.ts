@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ringoffire';
+
 }
