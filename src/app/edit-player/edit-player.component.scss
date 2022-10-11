@@ -1,0 +1,46 @@
+.editPlayerCont {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .avatarCont {
+
+        padding-top: 24px;
+        padding-bottom: 24px;
+        max-width: 80vw;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        background-color: rgba(199, 199, 199, 0.2);
+        border-radius: 4px;
+
+        .avatars {
+            height: 80px;
+            width: 80px;
+            margin: 8px;
+            cursor: pointer;
+            transition: 225ms;
+
+            &:hover {
+                filter: brightness(105%);
+                transform: scale(1.05) translate(0px, -4px);
+            }
+        }
+    }
+}
+
+@media (max-width: 720px) {
+
+    .editPlayerCont {
+    
+        .avatarCont {
+    
+            .avatars {
+                height: 50px;
+                width: 50px;
+                margin: 6px;
+            }
+        }
+    }
+}

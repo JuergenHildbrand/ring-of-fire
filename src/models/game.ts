@@ -1,8 +1,12 @@
 export class Game {
     public players: string[] = [];
+    public playerImgs: string[] = [];
     public stack: string[] = [];
     public playedCards: string[] = [];
-    public currenPlayer: number = 0;
+    public currentPlayer: number = 0;
+    public takeCardAnimation = false;
+    public currentCard: string = '';
+   
 
     constructor() {
         for (let i = 1; i < 14; i++) {
@@ -14,19 +18,22 @@ export class Game {
         shuffle(this.stack);
     }
 
-    // public toJson() {
-    //     return {
-    //         playerNames: this.playerNames,
-    //         stack: this.stack,
-    //         playedCards: this.playedCards,
-    //         takeCardAnimation: this.takeCardAnimation,
-    //         playerImgs: this.playerImgs,
-    //         currentPlayer: this.currentPlayer,
-    //         currentCard: this.currentCard,
-    //         addPlayer: this.addPlayer,
-    //         portrait: this.portrait
-    //     }
-    // }
+    public toJson() { // for firestore => Game objekt to JSON
+        return {
+            players: this.players,
+            playerImgs: this.playerImgs,
+            stack: this.stack,
+            playedCards: this.playedCards,
+            currentPlayer: this.currentPlayer,
+            takeCardAnimation: this.takeCardAnimation,
+            currentCard: this.currentCard,
+           
+
+            // addPlayer: this.addPlayer,
+            // portrait: this.portrait,
+            // playerImgs: this.playerImgs,
+        }
+    }
 }
 
 function shuffle(array) {
