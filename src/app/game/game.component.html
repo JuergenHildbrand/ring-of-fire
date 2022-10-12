@@ -1,4 +1,6 @@
-<div class="scrollCont1 hideMobile">
+<div 
+    class="scrollCont1 hideMobile"
+    *ngIf="!gameOver">
     <app-player
         (click)="editPlayer(i)"
         *ngFor="let player of game.players
@@ -9,17 +11,24 @@
     </app-player>
 </div>
 
-<div class="scrollCont2 hideDesktop">
+<div 
+    class="scrollCont2 hideDesktop"
+    *ngIf="!gameOver">
     <app-player-mobile
         (click)="editPlayer(i)"
         *ngFor="let player of game.players
         let i = index;"
         [name]="player"
-        [playerActive]="i == game.currentPlayer">
+        [playerActive]="i == game.currentPlayer"
+        [image]="game.playerImgs[i]">
     </app-player-mobile>
 </div>
 
-<div class="game">
+<div class="gameOver" *ngIf="gameOver">
+    <img src="assets/img/gameOver.jpeg">
+</div>
+
+<div class="game" *ngIf="!gameOver">
     <div class="cardStack">
 
         <!-- Card stack -->
@@ -54,8 +63,8 @@
 
 </div>
 
-<app-game-info [card]="game.currentCard"></app-game-info>
+<app-game-info *ngIf="!gameOver" [card]="game.currentCard"></app-game-info>
 
-<button mat-fab color="primary" (click)="openDialog()">
+<button *ngIf="!gameOver" mat-fab color="primary" (click)="openDialog()">
     <mat-icon>add</mat-icon>
 </button>

@@ -3,7 +3,7 @@ import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 
@@ -14,13 +14,15 @@ import { EditPlayerComponent } from '../edit-player/edit-player.component';
 })
 export class GameComponent implements OnInit {
 
-  game: Game;
+  game = new Game;
   gameId: string;
+  gameOver: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -28,18 +30,19 @@ export class GameComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.gameId = params['id'];
       this
-      .firestore
-      .collection('games')
-      .doc(this.gameId)
-      .valueChanges()
-      .subscribe((game: any) => {
-        this.game.currentPlayer = game.currentPlayer;
-        this.game.playedCards = game.playedCards;
-        this.game.players = game.players;
-        this.game.stack = game.stack;
-        this.game.takeCardAnimation = game.takeCardAnimation;
-        this.game.currentCard = game.currentCard;
-      })
+        .firestore
+        .collection('games')
+        .doc(this.gameId)
+        .valueChanges()
+        .subscribe((game: any) => {
+          this.game.playerImgs = game.playerImgs;
+          this.game.currentPlayer = game.currentPlayer;
+          this.game.playedCards = game.playedCards;
+          this.game.players = game.players;
+          this.game.stack = game.stack;
+          this.game.takeCardAnimation = game.takeCardAnimation;
+          this.game.currentCard = game.currentCard;
+        })
     })
   }
 
@@ -48,22 +51,29 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (this.game.players.length > 1) {
-      if (!this.game.takeCardAnimation) {
-        this.game.currentCard = this.game.stack.pop();
-        this.game.takeCardAnimation = true;
-        this.game.currentPlayer++;
-        this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-        this.saveGame();
-
-        setTimeout(() => {
-          this.game.playedCards.push(this.game.currentCard)
-          this.game.takeCardAnimation = false;
-          this.saveGame();
-        }, 1000);
-      }
+    if (this.game.stack.length == 0) {
+      this.gameOver = true;
+      setTimeout(() => {
+        this.router.navigateByUrl('');
+      }, 1999);
     } else {
-      alert('Please add player(s)')
+      if (this.game.players.length > 1) {
+        if (!this.game.takeCardAnimation) {
+          this.game.currentCard = this.game.stack.pop();
+          this.game.takeCardAnimation = true;
+          this.game.currentPlayer++;
+          this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+          this.saveGame();
+
+          setTimeout(() => {
+            this.game.playedCards.push(this.game.currentCard)
+            this.game.takeCardAnimation = false;
+            this.saveGame();
+          }, 1000);
+        }
+      } else {
+        alert('Please add player(s)')
+      }
     }
   }
 
@@ -73,7 +83,7 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name && (name.length >= 2 || name.length <= 10)) {
         this.game.players.push(name);
-        this.game.playerImgs.push()
+        this.game.playerImgs.push('p0');
         this.saveGame();
       }
     });
@@ -89,15 +99,21 @@ export class GameComponent implements OnInit {
   }
 
   editPlayer(playerId: number) {
-    console.log(playerId);
     const dialogRef = this.dialog.open(EditPlayerComponent);
 
     dialogRef.afterClosed().subscribe((change: string) => {
-      console.log(change);
-      
+      if (change) {
+        if (change == 'DELETE') {
+          this.game.players.splice(playerId, 1);
+          this.game.playerImgs.splice(playerId, 1);
+        } else {
+          this.game.playerImgs[playerId] = change;
+        }
+        this.saveGame()
+      }
     });
-    
-    
+
+
   }
 
 }

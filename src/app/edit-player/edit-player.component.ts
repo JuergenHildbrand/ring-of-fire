@@ -11,7 +11,6 @@ export class EditPlayerComponent implements OnInit {
   allAvatars = [];
 
   constructor(public dialogRef: MatDialogRef<EditPlayerComponent>,) {
-
     for (let i = 1; i < 20; i++) {
       this.allAvatars.push('p' + i);
     }

@@ -1,12 +1,12 @@
 <div class="editPlayerCont">
 
-    <h1 mat-dialog-title>Edit an avatar</h1>
+    <h1 mat-dialog-title>Edit player</h1>
 
     <div class="avatarCont">
         <img 
             class="avatars"
             *ngFor="let avatar of allAvatars" 
-            src="/assets/img/players/{{ avatar }}.png"
+            src="./assets/img/players/{{ avatar }}.png"
             [mat-dialog-close]="avatar">
     </div>
 
