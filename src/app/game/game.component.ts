@@ -27,54 +27,69 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame();
-    this.route.params.subscribe((params) => {
-      this.gameId = params['id'];
-      this
-        .firestore
-        .collection('games')
-        .doc(this.gameId)
-        .valueChanges()
-        .subscribe((game: any) => {
-          this.game.playerImgs = game.playerImgs;
-          this.game.currentPlayer = game.currentPlayer;
-          this.game.playedCards = game.playedCards;
-          this.game.players = game.players;
-          this.game.stack = game.stack;
-          this.game.takeCardAnimation = game.takeCardAnimation;
-          this.game.currentCard = game.currentCard;
-        })
-    })
+    this.loadData();
   }
 
   newGame() {
     this.game = new Game();
   }
 
+  loadData() {
+    this.route.params.subscribe((params) => {
+      this.gameId = params['id'];
+      this.firestoreData();
+    })
+  }
+
+  firestoreData() {
+    this
+      .firestore
+      .collection('games')
+      .doc(this.gameId)
+      .valueChanges()
+      .subscribe((game: any) => {
+        this.game.playerImgs = game.playerImgs;
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.playedCards = game.playedCards;
+        this.game.players = game.players;
+        this.game.stack = game.stack;
+        this.game.takeCardAnimation = game.takeCardAnimation;
+        this.game.currentCard = game.currentCard;
+      })
+  }
+
   takeCard() {
     if (this.game.stack.length == 0) {
-      this.gameOver = true;
-      setTimeout(() => {
-        this.router.navigateByUrl('');
-      }, 1999);
+      this.gameIsOver();
     } else {
       if (this.game.players.length > 1) {
         if (!this.game.takeCardAnimation) {
-          this.game.currentCard = this.game.stack.pop();
-          this.game.takeCardAnimation = true;
-          this.game.currentPlayer++;
-          this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-          this.saveGame();
-
-          setTimeout(() => {
-            this.game.playedCards.push(this.game.currentCard)
-            this.game.takeCardAnimation = false;
-            this.saveGame();
-          }, 1000);
+          this.cardAnimation();
         }
       } else {
         alert('Please add player(s)')
       }
     }
+  }
+
+  gameIsOver() {
+    this.gameOver = true;
+    setTimeout(() => {
+      this.router.navigateByUrl('');
+    }, 1999);
+  }
+
+  cardAnimation() {
+    this.game.currentCard = this.game.stack.pop();
+    this.game.takeCardAnimation = true;
+    this.game.currentPlayer++;
+    this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+    this.saveGame();
+    setTimeout(() => {
+      this.game.playedCards.push(this.game.currentCard)
+      this.game.takeCardAnimation = false;
+      this.saveGame();
+    }, 1000);
   }
 
   openDialog(): void {
@@ -87,7 +102,6 @@ export class GameComponent implements OnInit {
         this.saveGame();
       }
     });
-
   }
 
   saveGame() {
@@ -100,7 +114,6 @@ export class GameComponent implements OnInit {
 
   editPlayer(playerId: number) {
     const dialogRef = this.dialog.open(EditPlayerComponent);
-
     dialogRef.afterClosed().subscribe((change: string) => {
       if (change) {
         if (change == 'DELETE') {
@@ -112,8 +125,5 @@ export class GameComponent implements OnInit {
         this.saveGame()
       }
     });
-
-
   }
-
 }

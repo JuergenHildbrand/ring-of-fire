@@ -1,6 +1,7 @@
 <div 
     class="scrollCont1 hideMobile"
     *ngIf="!gameOver">
+    
     <app-player
         (click)="editPlayer(i)"
         *ngFor="let player of game.players
@@ -14,6 +15,7 @@
 <div 
     class="scrollCont2 hideDesktop"
     *ngIf="!gameOver">
+
     <app-player-mobile
         (click)="editPlayer(i)"
         *ngFor="let player of game.players

@@ -11,7 +11,6 @@ export class PlayerComponent implements OnInit {
   @Input() image: string;
   @Input() playerActive: boolean = false;
   
-
   constructor() { }
 
   ngOnInit(): void {

@@ -82,8 +82,18 @@
     overflow-x: scroll;
 }
 
+app-player {
+    &:hover {
+        filter: brightness(1.15);
+    }
+}
+
 app-player-mobile {
     margin-left: 8px;
+
+    &:hover {
+        filter: brightness(1.15);
+    }
 }
 
 ::-webkit-scrollbar {
@@ -126,23 +136,6 @@ button {
     right: 32px;
 }
 
-@media (max-width: 1000px) {
-
-    .game {
-        .cardStack {
-            right: 100px;
-
-            img {
-                height: 180px;
-            }
-        }
-    }
-
-    .playedCard {
-        right: 25px;
-        transform: scale(1.3) translateX(120px) translateY(-150px) rotate(-15deg);
-    }
-}
 
 @media (max-width: 900px) {
 
@@ -172,6 +165,20 @@ button {
         left: 0;
         right: 0;
 
+    }
+
+    @keyframes takeCardAnimation {
+        0% {
+            transform: scale(1);
+        }
+    
+        50% {
+            transform: scale(1.7);
+        }
+    
+        100% {
+            transform: scale(1.3) translateX(120px) translateY(-150px) rotate(-15deg);
+        }
     }
 
 }
@@ -211,4 +218,17 @@ button {
         transform: scale(1.3) translateX(80px) translateY(-100px) rotate(-15deg);
     }
 
+    @keyframes takeCardAnimation {
+        0% {
+            transform: scale(1);
+        }
+    
+        50% {
+            transform: scale(1.7);
+        }
+    
+        100% {
+            transform: scale(1.3) translateX(80px) translateY(-100px) rotate(-15deg);
+        }
+    }
 }
