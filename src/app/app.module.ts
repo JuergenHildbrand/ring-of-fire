@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DialogAddPlayerComponent } from './dialog-add-player/dialog-add-player.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { GameInfoComponent } from './game-info/game-info.component';
@@ -25,6 +25,11 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
+import { SnackbarComponent } from './snackbar/snackbar.component'; 
+import { MatSnackBarModule } from '@angular/material/snack-bar'; 
+
+
+
 
 
 @NgModule({
@@ -36,7 +41,8 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     DialogAddPlayerComponent,
     GameInfoComponent,
     PlayerMobileComponent,
-    EditPlayerComponent
+    EditPlayerComponent,
+    SnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +64,8 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
   ],
   providers: [
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase }

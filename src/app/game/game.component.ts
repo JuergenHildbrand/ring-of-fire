@@ -5,6 +5,9 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
+
 
 
 @Component({
@@ -17,12 +20,15 @@ export class GameComponent implements OnInit {
   game = new Game;
   gameId: string;
   gameOver: boolean = false;
+  durationInSeconds = 5;
+
 
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private firestore: AngularFirestore,
     private router: Router,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +73,7 @@ export class GameComponent implements OnInit {
           this.cardAnimation();
         }
       } else {
-        alert('Please add player(s)')
+        this.openSnackBar();
       }
     }
   }
@@ -124,6 +130,12 @@ export class GameComponent implements OnInit {
         }
         this.saveGame()
       }
+    });
+  }
+
+  openSnackBar() {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: this.durationInSeconds * 1000,
     });
   }
 }

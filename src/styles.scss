@@ -17,3 +17,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         display: none !important;
     }
 }
+
+@media (max-height: 370px) {
+    .hide {
+        display: none !important;
+    }
+}
+
+@media (min-height: 369px) {
+    .hideTxt {
+        display: none !important;
+    }
+}

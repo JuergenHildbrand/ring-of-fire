@@ -1,72 +1,51 @@
-<div 
-    class="scrollCont1 hideMobile"
-    *ngIf="!gameOver">
-    
-    <app-player
-        (click)="editPlayer(i)"
-        *ngFor="let player of game.players
-        let i = index;"
-        [name]="player"
-        [playerActive]="i == game.currentPlayer"
-        [image]="game.playerImgs[i]">
-    </app-player>
-</div>
+<div class="hide">
 
-<div 
-    class="scrollCont2 hideDesktop"
-    *ngIf="!gameOver">
+    <div class="scrollCont1 hideMobile hide" *ngIf="!gameOver">
 
-    <app-player-mobile
-        (click)="editPlayer(i)"
-        *ngFor="let player of game.players
-        let i = index;"
-        [name]="player"
-        [playerActive]="i == game.currentPlayer"
-        [image]="game.playerImgs[i]">
-    </app-player-mobile>
-</div>
+        <app-player (click)="editPlayer(i)" *ngFor="let player of game.players
+        let i = index;" [name]="player" [playerActive]="i == game.currentPlayer" [image]="game.playerImgs[i]">
+        </app-player>
+    </div>
 
-<div class="gameOver" *ngIf="gameOver">
-    <img src="assets/img/gameOver.jpeg">
-</div>
+    <div class="scrollCont2 hideDesktop" *ngIf="!gameOver">
 
-<div class="game" *ngIf="!gameOver">
-    <div class="cardStack">
+        <app-player-mobile (click)="editPlayer(i)" *ngFor="let player of game.players
+        let i = index;" [name]="player" [playerActive]="i == game.currentPlayer" [image]="game.playerImgs[i]">
+        </app-player-mobile>
+    </div>
 
-        <!-- Card stack -->
-        <img 
-            *ngFor="let c of [0, 1, 2, 3,]
-            let i = index;"
-            [ngStyle]="{'right.px': i * 5}"
-            src="assets/img/cards/card_cover.png">
+    <div class="gameOver" *ngIf="gameOver">
+        <img src="assets/img/gameOver.jpeg">
+    </div>
 
-        <img 
-            class="topCard"
-            (click)="takeCard()"
-            [class.takeCard]="game.takeCardAnimation"
-            style="right: 25px;"
-            src="assets/img/cards/card_cover.png">
+    <div class="game" *ngIf="!gameOver">
+        <div class="cardStack">
 
-        <!-- Stack for played cards -->
-        <img 
-            class="playedCard"
-            *ngFor="let card of game.playedCards"
-            src="assets/img/cards/{{ card }}.png">
+            <!-- Card stack -->
+            <img *ngFor="let c of [0, 1, 2, 3,]
+            let i = index;" [ngStyle]="{'right.px': i * 5}" src="assets/img/cards/card_cover.png">
 
-        <!-- Current card (animation) -->
-        <img 
-            class="takeCardAnimation"
+            <img class="topCard" (click)="takeCard()" [class.takeCard]="game.takeCardAnimation" style="right: 25px;"
+                src="assets/img/cards/card_cover.png">
 
-            *ngIf="game.takeCardAnimation"
-            style="right: 25px;"
-            src="assets/img/cards/{{ game.currentCard }}.png">
+            <!-- Stack for played cards -->
+            <img class="playedCard" *ngFor="let card of game.playedCards" src="assets/img/cards/{{ card }}.png">
+
+            <!-- Current card (animation) -->
+            <img class="takeCardAnimation" *ngIf="game.takeCardAnimation" style="right: 25px;"
+                src="assets/img/cards/{{ game.currentCard }}.png">
+
+        </div>
 
     </div>
 
+    <app-game-info *ngIf="!gameOver" [card]="game.currentCard"></app-game-info>
+
+    <button *ngIf="!gameOver" mat-fab color="primary" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+    </button>
+
 </div>
 
-<app-game-info *ngIf="!gameOver" [card]="game.currentCard"></app-game-info>
+<span class="center hideTxt">The screen format is not supported</span>
 
-<button *ngIf="!gameOver" mat-fab color="primary" (click)="openDialog()">
-    <mat-icon>add</mat-icon>
-</button>
